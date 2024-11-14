@@ -291,13 +291,18 @@ bool tNMEA0183Msg::AddDoubleField(double val, double multiplier, const char *For
     }
   }
   // Convert to string.
-  dtostrf(val*multiplier, width, precision, StrVal);
+#ifdef _WIN32
+  customDtostrf(val * multiplier, width, precision, StrVal);
+#else
+  dtostrf(val * multiplier, width, precision, StrVal); // Code for other platforms
+#endif
+
   needSize=strlen(StrVal);
   if ( needSize<MAX_NMEA0183_MSG_LEN-iAddData ) {
     if ( Padding ) for ( char *s=StrVal; *s==' '; *s='0', s++);
     strcpy((Data+iAddData),StrVal);
   }
-  #endif
+#endif
 
   if ( needSize>MAX_NMEA0183_MSG_LEN-1-iAddData ) return false;
 
@@ -485,3 +490,11 @@ unsigned long tNMEA0183Msg::DaysToNMEA0183Date(unsigned long val) {
 
   return val;
 }
+
+#ifdef _WIN32
+char *tNMEA0183Msg::customDtostrf(double val, int width, unsigned int precision, char *buf)
+{
+    snprintf(buf, width + precision + 2, "%*.*f", width, precision, val);
+    return buf;
+}
+#endif

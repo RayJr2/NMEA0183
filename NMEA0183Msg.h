@@ -185,6 +185,10 @@ class tNMEA0183Msg
 
     // Helper function to convert days since 1970 to ddmmyyyy.
     static unsigned long DaysToNMEA0183Date(unsigned long val);
+
+#ifdef _WIN32
+    char *customDtostrf(double val, int width, unsigned int precision, char *buf);
+#endif
 };
 
 #endif
