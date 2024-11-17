@@ -586,6 +586,18 @@ bool NMEA0183SetHDM(tNMEA0183Msg &NMEA0183Msg, double Heading, const char *Src) 
 }
 
 //*****************************************************************************
+bool NMEA0183ParseHDG_nc(const tNMEA0183Msg &NMEA0183Msg, double &Heading, double &Deviation, double &Variation)
+{
+    bool result = (NMEA0183Msg.FieldCount() >= 3);
+    if (result) {
+        Heading = NMEA0183GetDouble(NMEA0183Msg.Field(0), degToRad);
+        Deviation = NMEA0183GetDouble(NMEA0183Msg.Field(1), degToRad);
+        Variation = NMEA0183GetDouble(NMEA0183Msg.Field(2), degToRad);
+    }
+
+    return result;
+}
+
 bool NMEA0183SetHDG(tNMEA0183Msg &NMEA0183Msg, double Heading, double Deviation, double Variation, const char *Src) {
   if ( !NMEA0183Msg.Init("HDG",Src) ) return false;
   if ( !NMEA0183Msg.AddDoubleField(Heading,radToDeg) ) return false;

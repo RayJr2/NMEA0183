@@ -423,6 +423,7 @@ inline bool NMEA0183ParseHDM(const tNMEA0183Msg &NMEA0183Msg, double &MagneticHe
 bool NMEA0183SetHDM(tNMEA0183Msg &NMEA0183Msg, double Heading, const char *Src="GP");
 
 //*****************************************************************************
+bool NMEA0183ParseHDG_nc(const tNMEA0183Msg &NMEA0183Msg, double &Heading, double &Deviation, double &Variation);
 bool NMEA0183SetHDG(tNMEA0183Msg &NMEA0183Msg, double Heading, double Deviation, double Variation, const char *Src="GP");
 
 //*****************************************************************************
